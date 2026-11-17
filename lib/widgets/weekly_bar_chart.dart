@@ -25,13 +25,16 @@ class FitnessMetricSwitch extends StatelessWidget {
         isDark ? FitnessColors.darkSurface2 : FitnessColors.lightSurface2;
 
     return Container(
-      height: 42,
+      height: 44,
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark ? FitnessColors.darkBorderSubtle : FitnessColors.lightBorderSubtle,
+          color: isDark
+              ? FitnessColors.darkBorderSubtle
+              : FitnessColors.lightBorderSubtle,
+          width: 1,
         ),
       ),
       child: Row(
@@ -72,36 +75,35 @@ class _MetricTabItem extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 220),
+        duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOutCubic,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isSelected
-              ? (isDark ? FitnessColors.darkSurface3 : FitnessColors.lightSurface1)
+              ? metricColor.withValues(alpha: isDark ? 0.15 : 0.12)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: isDark ? 0.25 : 0.06),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ]
-              : null,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected
+                ? metricColor.withValues(alpha: isDark ? 0.5 : 0.4)
+                : Colors.transparent,
+            width: 1,
+          ),
         ),
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
                   icon,
-                  size: 14,
+                  size: 15,
                   color: isSelected ? metricColor : context.textMuted,
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: 5),
                 Text(
                   metric == Metric.minutes ? 'Time' : metric.label,
                   style: theme.textTheme.labelMedium?.copyWith(
